@@ -37,6 +37,25 @@ PID::PID(double* Input, double* Output, double* Setpoint,
     lastTime = millis()-SampleTime;				
 }
  
+void PID::Begin(double* Input, double* Output, double* Setpoint,
+        double Kp, double Ki, double Kd, int ControllerDirection)
+{
+	
+    myOutput = Output;
+    myInput = Input;
+    mySetpoint = Setpoint;
+	inAuto = false;
+	
+	PID::SetOutputLimits(0, 255);				//default output limit corresponds to 
+												//the arduino pwm limits
+
+    SampleTime = 100;							//default Controller Sample Time is 0.1 seconds
+
+    PID::SetControllerDirection(ControllerDirection);
+    PID::SetTunings(Kp, Ki, Kd);
+
+    lastTime = millis()-SampleTime;				
+}
  
 /* Compute() **********************************************************************
  *     This, as they say, is where the magic happens.  this function should be called
@@ -60,7 +79,7 @@ bool PID::Compute()
       double dInput = (input - lastInput);
  
       /*Compute PID Output*/
-      double output = kp * error + ITerm- kd * dInput;
+      double output = kp * error + ITerm - kd * dInput;
       
 	  if(output > outMax) output = outMax;
       else if(output < outMin) output = outMin;

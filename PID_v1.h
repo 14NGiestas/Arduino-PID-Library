@@ -17,6 +17,9 @@ class PID
   //commonly used functions **************************************************************************
     PID(double*, double*, double*,        // * constructor.  links the PID to the Input, Output, and 
         double, double, double, int);     //   Setpoint.  Initial tuning parameters are also set here
+
+	void Begin(double*, double*, double*,        // * constructor.  links the PID to the Input, Output, and 
+        double, double, double, int);
 	
     void SetMode(int Mode);               // * sets PID to either Manual (0) or Auto (non-0)
 
